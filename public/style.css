@@ -84,8 +84,12 @@ nav button:hover {
 }
 
 .hero h2 {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero p {
@@ -118,6 +122,30 @@ nav button:hover {
 
 .btn-primary:hover {
   background: var(--primary-dark);
+}
+
+.cta-buttons .btn-primary {
+  font-size: 1.2rem;
+  padding: 16px 36px;
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+  transform: translateY(0);
+  animation: heroPulse 2s ease-in-out infinite;
+}
+
+.cta-buttons .btn-primary:hover {
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+  transform: translateY(-2px);
+}
+
+@keyframes heroPulse {
+  0%, 100% { 
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+    transform: translateY(0);
+  }
+  50% { 
+    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+    transform: translateY(-2px);
+  }
 }
 
 .btn-secondary {
