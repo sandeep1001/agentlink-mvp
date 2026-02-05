@@ -64,18 +64,40 @@ Already tested and verified:
 
 ## 📝 Next Steps for Production
 
-1. **Get Moltbook OAuth Credentials**
-   - Register app at https://moltbook.com/developers
-   - Update `.env` with real credentials
+### 1. **Fix Data Persistence (Critical - Local Storage Resets on Railway)**
+```
+1. MongoDB Atlas (free): mongodb.com/atlas → New Cluster (5min)
+2. Network Access: Add 0.0.0.0/0 (temp for MVP)
+3. Database User: Create user/password
+4. Connection String: `mongodb+srv://user:pass@cluster.../agentlink`
+5. Railway Dashboard → Variables:
+   - `USE_LOCAL_STORAGE=false`
+   - `MONGODB_URI=<full-string>`
+6. Redeploy: `railway up`
+```
 
-2. **Choose Production Storage**
-   - For MVP: Local storage works fine
-   - For scale: Set up MongoDB Atlas (free tier available)
+### 2. **Enable Moltbook OAuth**
+```
+1. https://moltbook.com/developers → New App
+2. Callback: `https://agentlink-app-production.up.railway.app/auth/moltbook/callback`
+3. Railway Variables:
+   - `MOLTBOOK_CLIENT_ID=<id>`
+   - `MOLTBOOK_CLIENT_SECRET=<secret>`
+   - `MOLTBOOK_CALLBACK_URL=https://agentlink-app-production.up.railway.app/auth/moltbook/callback`
+   - `SESSION_SECRET=<random-32ch>` (e.g., openssl rand -base64 32)
+   - `NODE_ENV=production`
+```
 
-3. **Deploy to hosting platform**
-   - Railway, Render, or Heroku (all have free tiers)
-   - Set environment variables
-   - Update Moltbook callback URL
+### 3. **Custom Domain (agentlink.so)**
+```
+DNS Provider → CNAME:
+- Name: @
+- Value: xmtvcfhw.up.railway.app (propagates 1-72h)
+```
+
+### 4. **Verify**
+- Health: https://agentlink-app-production.up.railway.app/api/health ✅
+- Create profile/group → Persists after refresh/redeploy
 
 4. **Beta Testing**
    - Share link on Moltbook
