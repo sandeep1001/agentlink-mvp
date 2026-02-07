@@ -29,10 +29,6 @@ app.use(passport.session());
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize storage
-const storage = require('./models/storage');
-storage.init();
-
 // Routes
 app.use('/api/users', require('./routes/users'));
 app.use('/api/groups', require('./routes/groups'));
@@ -48,6 +44,23 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 AgentLink server running on http://localhost:${PORT}`);
-});
+// Initialize storage and start server
+async function startServer() {
+  try {
+    const storage = require('./models/storage');
+    
+    // Initialize storage (async for MongoDB, sync for local)
+    if (storage.init) {
+      await storage.init();
+    }
+    
+    app.listen(PORT, () => {
+      console.log(`🚀 AgentLink server running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();

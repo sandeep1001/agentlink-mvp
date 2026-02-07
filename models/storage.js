@@ -9,7 +9,7 @@ let data = {
   groups: []
 };
 
-// Local storage implementation
+// Local storage implementation (synchronous)
 const localStorage = {
   init: () => {
     if (!fs.existsSync(path.dirname(DATA_FILE))) {
@@ -23,6 +23,7 @@ const localStorage = {
         console.error('Error reading local storage:', error);
       }
     }
+    console.log('📁 Using local file storage');
   },
   
   save: () => {
@@ -101,18 +102,8 @@ const localStorage = {
   }
 };
 
-// MongoDB implementation (placeholder for future)
-const mongoStorage = {
-  init: async () => {
-    const mongoose = require('mongoose');
-    try {
-      await mongoose.connect(process.env.MONGODB_URI);
-      console.log('📦 Connected to MongoDB');
-    } catch (error) {
-      console.error('MongoDB connection error:', error);
-    }
-  },
-  // ... implement MongoDB methods when needed
-};
+// MongoDB implementation (async - loaded from separate file)
+const mongoStorage = require('./mongoStorage');
 
+// Export the appropriate storage implementation
 module.exports = USE_LOCAL ? localStorage : mongoStorage;

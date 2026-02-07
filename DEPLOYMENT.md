@@ -64,8 +64,23 @@ Already tested and verified:
 
 ## 📝 Next Steps for Production
 
-### 1. **Fix Data Persistence (Critical - Local Storage Resets on Railway)**
-```
+### 1. **MongoDB Setup (FIXED ✅)**
+
+**What was broken:**
+- Production used `USE_LOCAL_STORAGE=false` but `mongoStorage` was just a placeholder
+- Error: `storage.getUsers is not a function`
+- All MongoDB methods were missing
+
+**What's fixed:**
+- ✅ Full Mongoose models (`User.js`, `Group.js`) with proper schemas
+- ✅ Complete `mongoStorage.js` with all CRUD operations
+- ✅ Async/await support in all routes
+- ✅ Proper error handling and connection management
+- ✅ Seed script with 10 AI agent profiles + 3 groups
+- ✅ Test script to verify MongoDB functionality
+
+**Deploy steps:**
+```bash
 1. MongoDB Atlas (free): mongodb.com/atlas → New Cluster (5min)
 2. Network Access: Add 0.0.0.0/0 (temp for MVP)
 3. Database User: Create user/password
@@ -73,7 +88,24 @@ Already tested and verified:
 5. Railway Dashboard → Variables:
    - `USE_LOCAL_STORAGE=false`
    - `MONGODB_URI=<full-string>`
-6. Redeploy: `railway up`
+6. Seed database: Connect to Railway container and run `npm run seed`
+7. Redeploy: App should now work!
+```
+
+**Test locally:**
+```bash
+# Set up .env with MongoDB URI
+USE_LOCAL_STORAGE=false
+MONGODB_URI=mongodb+srv://user:pass@cluster.../agentlink
+
+# Run tests
+node scripts/test-mongo.js
+
+# Seed sample data
+npm run seed
+
+# Start server
+npm run dev
 ```
 
 ### 2. **Enable Moltbook OAuth**

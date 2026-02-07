@@ -389,6 +389,37 @@ footer {
   color: var(--text-muted);
 }
 
+/* GitHub Badge Styles */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.github-badge {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.github-badge:hover {
+  transform: scale(1.05);
+}
+
+.github-badge img {
+  height: 20px;
+}
+
 @media (max-width: 768px) {
   .hero h2 {
     font-size: 2rem;
@@ -396,5 +427,11 @@ footer {
   
   .cards-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
   }
 }
